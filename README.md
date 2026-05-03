@@ -2,8 +2,8 @@
 ## Title
 Deep Neural Network for m-Height Estimation
 
-## Motivation / Why it matters
-Main Notebook (Start Here)
+## Main Notebook
+👉 [Start here: Project3.ipynb](Project3/Project3.ipynb)
 ## Research Questions / Problem Definition
 Can we efficiently estimate the m-height of an analog code using deep learning, instead of solving expensive optimization problems?  
 
@@ -15,24 +15,46 @@ Pros: exact
 Cons: computationally expensive and scales poorly as problem size grows.
 
 **Input**
-Code parameters: $n, k, m$
-Generator matrix $G = [I_k \mid P]$, where $P \in \mathbb{R}^{k \times (n-k)}$
-For every DNN input, 3 integers (n=9,m= {2,3,...,n-k},k = {4,5,6}) and matrix P (G = (I|P))are given.
+Each input consists of:
+- Three integers (n, k, m)
+- A matrix P, where G = [I | P]
+
+In this project, we focus on:
+- n = 9
+- k ∈ {4, 5, 6}
+- m ∈ {2, ..., n − k}
 
 **Target**
 Learn the function using NN  
 $f(n, k, m, P) \rightarrow h_m(C)$
 ## Method
+Different input representations were explored, including:
+- Flattening the P-matrix into a vector (for MLP-based models)
+- Treating rows as tokens for Transformer-based models
+- Convolutional representations (CNN), which were found to be less effective
+### Feature Engineering
+Additional handcrafted features were extracted from the P-matrix to provide structural signals and improve model performance
+
+### Model Architectures
+Several architectures were evaluated:
+- **MLP (Dense network):** captures global relationships between features
+- **CNN:** tested for spatial pattern extraction, but performed poorly due to lack of spatial structure in the data
+- **Transformer:** used to model row-wise relationships in the P-matrix
+
+A **hybrid model** was developed by combining MLP and Transformer outputs through a stacked architecture, followed by a small Dense head.
+### Optimization
+Models were trained using standard regression objectives (log-MSE), with hyperparameters tuned across:
+- Network depth and width
+- Learning rate
+- Dropout
+- Optimizers
+  
 ## Data
-1. synthetic dataset
-2. professor provided (n=9, k= , m =.., P)
-   P is a matrix, I explored different representations of P, including flattening (vectorization) and convolution-based approaches using CNNs.
-   
-Project 1 – Project 3 represent the iterative development of the model, including different attempts and improvements over time.
 
-The size of the test set gradually increased across the three stages: 32,568 samples in Project1, 44,388 in Project2, and 56,363 in Project3.
+- Synthetic dataset generated using an LP-based algorithm (used as ground truth)
+- Provided dataset with fixed parameter settings (n = 9, k ∈ {4,5,6}, m ∈ {2,...,n−k})
 
-In Project2 and Project3, I augmented the training data by generating additional samples using the LP-based algorithm as ground truth. This helped improve the model’s performance.
+The P-matrix serves as the core input. Multiple representations were explored, including flattening and convolution-based approaches.
    
 ## Results / Key Findings
 - Built a deep learning pipeline to approximate the m-height function from structured matrix inputs.
@@ -52,7 +74,7 @@ In Project2 and Project3, I augmented the training data by generating additional
 ## Repo Structure
 ```
 .
-├── project1/
+├── Project1/
 │ └── Project.ipynb
 │
 ├── Project2/
@@ -60,7 +82,7 @@ In Project2 and Project3, I augmented the training data by generating additional
 │ ├── DS-2-Train-mHeights
 │ └── DS-2-Train-n_k_m_P
 │
-├── project3/
+├── Project3/
 │ ├── Project3.ipynb
 │ ├── DS-3-Train-mHeights
 │ └── DS-3-Train-n_k_m_P
