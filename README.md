@@ -50,4 +50,21 @@ In Project2 and Project3, I augmented the training data by generating additional
 - matplotlib
   
 ## Repo Structure
+```
+.
+├── project1/
+│ └── Project.ipynb
+│
+├── Project2/
+│ ├── project2.ipynb
+│ ├── DS-2-Train-mHeights
+│ └── DS-2-Train-n_k_m_P
+│
+├── project3/
+│ ├── Project3.ipynb
+│ ├── DS-3-Train-mHeights
+│ └── DS-3-Train-n_k_m_P
+│
+└── README.md
+```
 
